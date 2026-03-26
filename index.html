@@ -436,10 +436,55 @@
   }
 
   @media (max-width: 600px) {
-    nav { padding: 12px 16px; justify-content: space-between; }
-    .nav-logo { font-size: 12px; letter-spacing: 0.2em; }
-    .nav-tag, .nav-status { display: none; }
-    .nav-portfolio { font-size: 10px; gap: 4px; }
+    nav {
+      padding: 10px 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "logo portfolio"
+        "tag status";
+      row-gap: 4px;
+      column-gap: 10px;
+      align-items: center;
+    }
+    .nav-logo {
+      grid-area: logo;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+    }
+    .nav-portfolio {
+      grid-area: portfolio;
+      justify-self: end;
+      font-size: 9px;
+      gap: 3px;
+      letter-spacing: 0.12em;
+      height: auto;
+    }
+    .nav-portfolio-icon {
+      width: 12px;
+      height: 12px;
+      margin-right: 3px;
+    }
+    .nav-tag {
+      grid-area: tag;
+      display: inline;
+      font-size: 7px;
+      letter-spacing: 0.14em;
+      opacity: 0.85;
+    }
+    .nav-status {
+      grid-area: status;
+      display: inline-flex;
+      justify-self: end;
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      gap: 6px;
+      opacity: 0.9;
+    }
+    .status-dot {
+      width: 4px;
+      height: 4px;
+    }
     #hero { padding: 80px 20px 40px; }
     .hero-boot { font-size: 7px; margin-bottom: 16px; }
     .hero-name { font-size: clamp(48px, 12vw, 80px); }
@@ -456,16 +501,27 @@
     .metric-val { font-size: 24px; margin-bottom: 6px; }
     .metric-val .unit { font-size: 10px; }
     .metric-sub { font-size: 8px; }
-    #timeline { padding: 60px 20px; }
-    .section-eyebrow { font-size: 7px; margin-bottom: 12px; }
-    .section-title { font-size: 28px; }
-    .tl-event { margin-bottom: 48px; }
-    .tl-phase { font-size: 6px; }
-    .tl-date { font-size: 7px; margin-bottom: 6px; }
-    .tl-title { font-size: 14px; margin-bottom: 8px; }
-    .tl-details { font-size: 9px; line-height: 1.7; margin-bottom: 10px; }
-    .tl-insight { font-size: 9px; padding-left: 10px; }
-    .tl-expand { font-size: 7px; margin-top: 10px; }
+    #timeline { padding: 120px 24px; }
+    .section-eyebrow { font-size: 9px; margin-bottom: 16px; }
+    .section-title { font-size: 36px; }
+    .timeline-spine { display: block; left: 50%; top: 220px; bottom: 80px; }
+    .tl-event { display: grid; grid-template-columns: 1fr 40px 1fr; margin-bottom: 64px; }
+    .tl-event:nth-child(odd) .tl-content { grid-column: 1; grid-row: 1; text-align: right; }
+    .tl-event:nth-child(odd) .tl-node-wrap { grid-column: 2; grid-row: 1; }
+    .tl-event:nth-child(odd) .tl-spacer { grid-column: 3; grid-row: 1; }
+    .tl-event:nth-child(even) .tl-content { grid-column: 3; grid-row: 1; text-align: left; }
+    .tl-event:nth-child(even) .tl-node-wrap { grid-column: 2; grid-row: 1; }
+    .tl-event:nth-child(even) .tl-spacer { grid-column: 1; grid-row: 1; }
+    .tl-event .tl-node-wrap { display: flex; }
+    .tl-event .tl-spacer { display: block; }
+    .tl-phase { font-size: 8px; }
+    .tl-date { font-size: 9px; margin-bottom: 8px; }
+    .tl-title { font-size: 17px; margin-bottom: 10px; }
+    .tl-details { font-size: 11px; line-height: 1.8; margin-bottom: 12px; }
+    .tl-insight { font-size: 11px; border-left: 1px solid rgba(96,165,250,0.25) !important; border-right: none !important; padding-left: 12px !important; padding-right: 0 !important; }
+    .tl-event:nth-child(even) .tl-insight { border-left: none !important; border-right: 1px solid rgba(96,165,250,0.25) !important; padding-left: 0 !important; padding-right: 12px !important; }
+    .tl-event:nth-child(even) .tl-insight.f { border-right-color: rgba(239,68,68,0.2) !important; }
+    .tl-expand { font-size: 9px; margin-top: 12px; }
     #realizations, #philosophy, #signals, #future, #terminal, footer { padding: 40px 20px; }
     .realization-list { margin-top: 48px; }
     .realization-item { padding: 24px 0; }
