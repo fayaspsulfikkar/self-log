@@ -234,6 +234,78 @@
     .philosophy-grid { grid-template-columns: 1fr; }
     .philo-item:nth-child(even) { padding-left: 0; border-left: none; }
   }
+
+  @media (max-width: 600px) {
+    nav { padding: 16px 20px; }
+    .nav-logo { font-size: 12px; }
+    .nav-tag { font-size: 8px; }
+    .nav-status { font-size: 8px; }
+    #hero { padding: 80px 20px 40px; }
+    .hero-boot { font-size: 7px; margin-bottom: 16px; }
+    .hero-name { font-size: clamp(48px, 12vw, 80px); }
+    .hero-sub { font-size: 9px; margin-top: 12px; margin-bottom: 4px; }
+    .hero-date { font-size: 8px; }
+    .log-entry-tag { font-size: 7px; margin-top: 30px; margin-bottom: 15px; }
+    .hero-desc { padding-left: 15px; }
+    .log-line { font-size: 11px; line-height: 1.6; }
+    #metrics { padding: 40px 20px; }
+    .metrics-label { font-size: 7px; margin-bottom: 32px; }
+    .metrics-grid { grid-template-columns: 1fr; gap: 20px; }
+    .metric-item { padding: 0; }
+    .metric-key { font-size: 7px; margin-bottom: 8px; }
+    .metric-val { font-size: 24px; margin-bottom: 6px; }
+    .metric-val .unit { font-size: 10px; }
+    .metric-sub { font-size: 8px; }
+    #timeline { padding: 60px 20px; }
+    .section-eyebrow { font-size: 7px; margin-bottom: 12px; }
+    .section-title { font-size: 28px; }
+    .tl-event { margin-bottom: 48px; }
+    .tl-phase { font-size: 6px; }
+    .tl-date { font-size: 7px; margin-bottom: 6px; }
+    .tl-title { font-size: 14px; margin-bottom: 8px; }
+    .tl-details { font-size: 9px; line-height: 1.7; margin-bottom: 10px; }
+    .tl-insight { font-size: 9px; padding-left: 10px; }
+    .tl-expand { font-size: 7px; margin-top: 10px; }
+    #realizations, #philosophy, #signals, #future, #terminal, footer { padding: 40px 20px; }
+    .realization-list { margin-top: 48px; }
+    .realization-item { padding: 24px 0; }
+    .r-index { font-size: 8px; }
+    .r-text { font-size: 16px; }
+    .philosophy-grid { margin-top: 48px; }
+    .philo-item { padding: 20px 0; }
+    .philo-text { font-size: 13px; }
+    .signals-list { margin-top: 48px; gap: 32px; }
+    .signal-marker { font-size: 7px; margin-bottom: 8px; }
+    .signal-quote { font-size: 14px; }
+    .terminal-box { max-width: 100%; }
+    .terminal-bar { padding: 10px 16px; }
+    .terminal-bar-label { font-size: 7px; }
+    .terminal-body { padding: 20px 16px; }
+    .t-line { font-size: 9px; }
+    .t-cmd { font-size: 9px; }
+    .t-output { padding-left: 12px; }
+    .terminal-input { padding-top: 12px; }
+    .t-prompt { font-size: 9px; }
+    .future-list { margin-top: 48px; }
+    .future-item { padding: 20px 0; gap: 24px; }
+    .future-year { font-size: 9px; min-width: 50px; }
+    .future-text { font-size: 14px; }
+    #end { height: 60vh; }
+    .end-text { font-size: clamp(36px, 10vw, 60px); }
+    .end-text-main { font-size: clamp(12px, 3vw, 18px); margin-top: 8px; }
+    .end-sub { font-size: 7px; margin-top: 16px; }
+    footer { padding: 20px 20px; }
+    .footer-left, .footer-right { font-size: 8px; }
+    .modal { padding: 32px 24px; max-width: 90%; }
+    .modal-close { top: 16px; right: 16px; font-size: 14px; }
+    .modal-phase { font-size: 6px; margin-bottom: 4px; }
+    .modal-date { font-size: 7px; margin-bottom: 10px; }
+    .modal-title { font-size: 18px; margin-bottom: 20px; }
+    .modal-section { margin-bottom: 16px; }
+    .modal-label { font-size: 7px; margin-bottom: 8px; }
+    .modal-body { font-size: 10px; line-height: 1.7; }
+    .modal-insight { padding: 12px 16px; font-size: 10px; margin-top: 20px; }
+  }
 </style>
 </head>
 <body>
