@@ -366,16 +366,26 @@
   .t-cursor { display: inline-block; width: 7px; height: 14px; background: var(--accent-solid); opacity: 0.7; animation: blink 1s step-end infinite; margin-left: 4px; }
 
   /* FUTURE */
-  #future { padding: 100px 80px; border-top: 1px solid var(--line); }
-  .future-list { margin-top: 64px; max-width: 600px; }
-  .future-item { display: flex; gap: 32px; align-items: flex-start; padding: 28px 0; border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(10px) translateZ(0); transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform, opacity; backface-visibility: hidden; }
-  .future-item:first-child { border-top: 1px solid var(--line); }
+  #future { padding: 100px 80px; border-top: 1px solid var(--line); background: linear-gradient(180deg, var(--bg-base) 0%, rgba(15,25,55,0.2) 100%); }
+  .future-list { margin-top: 64px; max-width: 900px; display: flex; flex-direction: column; gap: 0; }
+  .future-item { display: flex; flex-direction: column; gap: 24px; padding: 40px 32px; border-left: 2px solid var(--accent-solid); border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(10px) translateZ(0); transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform, opacity; backface-visibility: hidden; position: relative; background: linear-gradient(90deg, rgba(96,165,250,0.05) 0%, transparent 10%); }
+  .future-item:hover { background: linear-gradient(90deg, rgba(96,165,250,0.1) 0%, transparent 15%); }
   .future-item.visible { opacity: 1; transform: translateY(0); }
-  .future-year { font-size: 11px; letter-spacing: 0.2em; color: var(--accent-solid); white-space: nowrap; padding-top: 3px; min-width: 60px; }
-  .future-text { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 500; color: var(--text-muted); line-height: 1.4; transition: color 0.3s; }
-  .future-item:hover .future-text { color: var(--text-primary); }
-  .future-item:last-child .future-text { color: rgba(96,165,250,0.5); }
-  .future-item:last-child:hover .future-text { color: var(--accent-solid); }
+  .future-item:first-child { border-top: 2px solid var(--accent-solid); }
+  .future-item:last-child { border-bottom: 2px solid var(--accent-solid); }
+  .future-header { display: flex; align-items: baseline; gap: 16px; }
+  .future-year { font-size: 13px; letter-spacing: 0.2em; color: var(--accent-solid); font-weight: 600; white-space: nowrap; }
+  .future-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600; color: var(--text-primary); transition: color 0.3s; }
+  .future-item:hover .future-title { color: #bfdbfe; }
+  .future-content { display: flex; flex-direction: column; gap: 16px; }
+  .future-description { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-left: 0; }
+  .future-points { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .future-point { font-size: 13px; color: var(--text-secondary); line-height: 1.5; display: flex; gap: 12px; }
+  .future-point::before { content: '▪'; color: var(--accent-solid); font-size: 10px; margin-top: 3px; flex-shrink: 0; }
+  .future-sub-section { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(96,165,250,0.2); }
+  .future-sub-label { font-size: 11px; letter-spacing: 0.15em; color: var(--accent-solid); font-weight: 600; text-transform: uppercase; opacity: 0.8; }
+  .future-phase { font-size: 12px; letter-spacing: 0.1em; color: var(--accent-solid); font-style: italic; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(96,165,250,0.15); display: inline-block; }
+  .future-phase::before { content: '▪ Phase: '; opacity: 0.5; }
 
   /* END */
   #end { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; border-top: 1px solid var(--line); text-align: center; position: relative; overflow: hidden; }
@@ -465,9 +475,15 @@
     .terminal-input { padding-top: 12px; }
     .t-prompt { font-size: 9px; }
     .future-list { margin-top: 48px; }
-    .future-item { padding: 20px 0; gap: 24px; }
-    .future-year { font-size: 9px; min-width: 50px; }
-    .future-text { font-size: 14px; }
+    .future-item { padding: 28px 20px; gap: 18px; }
+    .future-header { flex-direction: column; gap: 8px; }
+    .future-year { font-size: 11px; }
+    .future-title { font-size: 15px; }
+    .future-description { font-size: 12px; }
+    .future-point { font-size: 12px; }
+    .future-phase { font-size: 11px; }
+    .future-sub-label { font-size: 10px; }
+    .future-points { gap: 9px; }
     #end { height: 60vh; }
     .end-text { font-size: clamp(36px, 10vw, 60px); }
     .end-text-main { font-size: clamp(12px, 3vw, 18px); margin-top: 8px; }
@@ -728,15 +744,74 @@
 <!-- FUTURE -->
 <section id="future">
   <div class="section-header">
-    <div class="section-eyebrow">SECTION_07 / FUTURE TIMELINE</div>
-    <h2 class="section-title">Projected State</h2>
+    <div class="section-eyebrow">SECTION_07 / FUTURE LOG</div>
+    <h2 class="section-title">Projected Timeline</h2>
   </div>
   <div class="future-list">
-    <div class="future-item"><span class="future-year">2026</span><span class="future-text">Build real competence in AI and systems. No shortcuts.</span></div>
-    <div class="future-item"><span class="future-year">2027</span><span class="future-text">Validate something scalable. Cross-border infra or intelligence layer.</span></div>
-    <div class="future-item"><span class="future-year">2028</span><span class="future-text">Enter AI infrastructure seriously. Bridge systems and real leverage.</span></div>
-    <div class="future-item"><span class="future-year">2030</span><span class="future-text">Build a leverage-driven company. Work on the hardest problems.</span></div>
-    <div class="future-item"><span class="future-year">∞</span><span class="future-text">Still building.</span></div>
+    <div class="future-item">
+      <div class="future-header">
+        <span class="future-year">2026</span>
+        <span class="future-title">Reset + Rebuild</span>
+      </div>
+      <div class="future-content">
+        <div class="future-description">Accepted failure across multiple attempts</div>
+        <div class="future-points">
+          <div class="future-point">Shifted focus → learning (tech, AI, systems, innovation)</div>
+          <div class="future-point">Built a structured learning plan</div>
+          <div class="future-point">Exploring new startup directions with better thinking</div>
+        </div>
+        <div class="future-sub-section">
+          <div class="future-sub-label">Late 2026</div>
+          <div class="future-point">Commit fully to one startup idea</div>
+          <div class="future-point">Less experimentation, more focused execution</div>
+        </div>
+        <div class="future-phase">Understanding before building</div>
+      </div>
+    </div>
+    <div class="future-item">
+      <div class="future-header">
+        <span class="future-year">2027</span>
+        <span class="future-title">Early Traction</span>
+      </div>
+      <div class="future-content">
+        <div class="future-description">Startup begins to show initial traction</div>
+        <div class="future-points">
+          <div class="future-point">Learning applied in real environment</div>
+          <div class="future-point">Decisions become: less emotional, more data-driven</div>
+          <div class="future-point">First signs of: product-market alignment, repeatable results</div>
+        </div>
+        <div class="future-phase">Something starts working</div>
+      </div>
+    </div>
+    <div class="future-item">
+      <div class="future-header">
+        <span class="future-year">2028</span>
+        <span class="future-title">Establish + Scale</span>
+      </div>
+      <div class="future-content">
+        <div class="future-description">Business becomes stable enough to sustain</div>
+        <div class="future-points">
+          <div class="future-point">Clear model: what works, what doesn't</div>
+          <div class="future-point">Begin scaling intentionally: distribution, systems, operations</div>
+        </div>
+        <div class="future-phase">From survival → controlled growth</div>
+      </div>
+    </div>
+    <div class="future-item">
+      <div class="future-header">
+        <span class="future-year">2029</span>
+        <span class="future-title">Stability + Expansion</span>
+      </div>
+      <div class="future-content">
+        <div class="future-description">Core business becomes stable and predictable</div>
+        <div class="future-points">
+          <div class="future-point">Financial pressure reduces</div>
+          <div class="future-point">Shift focus to: multiple projects, deeper learning, long-term scaling</div>
+          <div class="future-point">Operate less as a struggler, more as a builder with experience</div>
+        </div>
+        <div class="future-phase">Leverage and expansion</div>
+      </div>
+    </div>
   </div>
 </section>
 
