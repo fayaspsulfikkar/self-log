@@ -43,6 +43,230 @@
   .status-dot { width: 5px; height: 5px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px #22c55e; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
+  #portfolio-btn {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    width: 80px;
+    height: 32px;
+    border-radius: 16px;
+    background: rgba(7,12,22,0.8);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-primary);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    cursor: none;
+    transition: box-shadow 0.3s;
+    z-index: 200;
+  }
+  #portfolio-btn:hover {
+    box-shadow: 0 0 20px rgba(96,165,250,0.3);
+  }
+  #portfolio-panel {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    width: 280px;
+    background: rgba(7,12,22,0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    z-index: 150;
+  }
+  #portfolio-panel.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+  .panel-section {
+    margin-bottom: 16px;
+  }
+  .panel-section:last-child {
+    margin-bottom: 0;
+  }
+  .panel-section h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-solid);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+  .panel-section p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .panel-section:not(:last-child) {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px;
+  }
+
+  #terminal-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(7,12,22,0.8);
+    border: 1px solid var(--glass-border);
+    color: var(--accent-solid);
+    cursor: none;
+    transition: box-shadow 0.3s, background 0.3s;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 300;
+  }
+  #terminal-btn:hover {
+    box-shadow: 0 0 20px rgba(96,165,250,0.4);
+    background: rgba(7,12,22,0.95);
+  }
+
+  #terminal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    z-index: 300;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+  }
+  #terminal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  #terminal-panel {
+    background: rgba(5,5,7,0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 6px;
+    width: 90%;
+    max-width: 520px;
+    height: 70vh;
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    transform: translateY(-20px) scale(0.95);
+    transition: transform 0.3s ease;
+  }
+  #terminal-overlay.open #terminal-panel {
+    transform: translateY(0) scale(1);
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .terminal-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .terminal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .terminal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+  .terminal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .terminal-close:hover {
+    color: var(--text-primary);
+  }
+
+  .terminal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    font-size: 12px;
+    color: var(--accent-solid);
+    font-family: 'DM Mono', monospace;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .terminal-body::-webkit-scrollbar { width: 6px; }
+  .terminal-body::-webkit-scrollbar-track { background: transparent; }
+  .terminal-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+  .terminal-line {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .terminal-prompt { color: var(--accent-solid); }
+  .terminal-output { color: #bfbfbf; }
+  .terminal-command {
+    color: var(--accent-solid);
+  }
+  .typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 12px;
+    background: var(--accent-solid);
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+
+  .terminal-section {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(96,165,250,0.05);
+    border-left: 2px solid var(--accent-solid);
+    font-size: 11px;
+    color: #bfbfbf;
+    line-height: 1.6;
+  }
+  .terminal-section-title {
+    color: var(--accent-solid);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .terminal-section-content { margin-left: 8px; }
+
+  .terminal-clickable {
+    color: var(--accent-solid);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .terminal-clickable:hover {
+    opacity: 0.7;
+  }
+
   section { position: relative; z-index: 1; }
 
   /* HERO */
@@ -57,7 +281,7 @@
   .cursor-blink { display: inline-block; width: 2px; height: 12px; background: var(--accent-solid); margin-left: 4px; vertical-align: middle; animation: blink 1s step-end infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
   .log-entry-tag { font-size: 9px; letter-spacing: 0.35em; color: var(--text-muted); margin-top: 40px; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.6s ease 0.9s forwards; }
-  .hero-desc { border-left: 1px solid rgba(96,165,250,0.2); padding-left: 20px; display: flex; flex-direction: column; }
+  .hero-desc { border-left: 1px solid rgba(96,165,250,0.2); padding-left: 20px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px; }
   .log-line { font-size: 13px; line-height: 1.8; display: block; opacity: 0; transform: translateY(12px); }
   .log-line:nth-child(1) { animation: fadeUp 0.6s ease 1.0s forwards; color: #ffffff; }
   .log-line:nth-child(2) { animation: fadeUp 0.6s ease 1.1s forwards; color: #6b7280; }
@@ -150,31 +374,29 @@
 
   /* REALIZATIONS */
   #realizations { padding: 100px 80px; border-top: 1px solid var(--line); background: radial-gradient(ellipse at 80% 50%, rgba(15,25,55,0.3) 0%, transparent 60%), var(--bg-base); }
-  .realization-list { margin-top: 64px; max-width: 700px; }
-  .realization-item { display: grid; grid-template-columns: 40px 1fr; gap: 24px; padding: 30px 0; border-bottom: 1px solid var(--line); align-items: start; opacity: 0; transform: translateX(-12px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .realization-list { margin-top: 64px; max-width: 700px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .realization-item { display: flex; flex-direction: column; gap: 8px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: flex-start; opacity: 0; transform: translateX(-12px); transition: opacity 0.5s ease, transform 0.5s ease; }
   .realization-item:first-child { border-top: 1px solid var(--line); }
   .realization-item.visible { opacity: 1; transform: translateX(0); }
   .r-index { font-size: 10px; color: var(--text-muted); padding-top: 4px; letter-spacing: 0.1em; }
-  .r-text { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 500; line-height: 1.8; letter-spacing: -0.01em; transition: color 0.3s; }
+  .r-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 500; line-height: 1.4; letter-spacing: -0.01em; transition: color 0.3s; }
   .realization-item:hover .r-text { color: #ffffff !important; }
 
   /* PHILOSOPHY */
   #philosophy { padding: 100px 80px; border-top: 1px solid var(--line); }
-  .philosophy-grid { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; max-width: 800px; }
-  .philo-item { padding: 28px 0; border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
-  .philo-item:nth-child(odd) { padding-right: 40px; }
-  .philo-item:nth-child(even) { padding-left: 40px; border-left: 1px solid var(--line); }
+  .philosophy-grid { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1000px; }
+  .philo-item { padding: 20px 0; border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
   .philo-item.visible { opacity: 1; transform: translateY(0); }
-  .philo-text { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 500; color: #6b7280; line-height: 1.7; letter-spacing: -0.01em; transition: color 0.3s; }
+  .philo-text { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 500; color: #6b7280; line-height: 1.6; letter-spacing: -0.01em; transition: color 0.3s; }
   .philo-item:hover .philo-text { color: #bfbfbf; }
 
   /* SIGNALS */
   #signals { padding: 100px 80px; border-top: 1px solid var(--line); }
-  .signals-list { margin-top: 64px; max-width: 600px; display: flex; flex-direction: column; gap: 40px; }
-  .signal-item { opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .signals-list { margin-top: 64px; max-width: 600px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .signal-item { opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; display: flex; flex-direction: column; gap: 8px; }
   .signal-item.visible { opacity: 1; transform: translateY(0); }
-  .signal-marker { font-size: 9px; color: rgba(96,165,250,0.3); margin-bottom: 10px; letter-spacing: 0.2em; }
-  .signal-quote { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 500; color: #bfbfbf; line-height: 1.6; letter-spacing: -0.01em; transition: color 0.3s; }
+  .signal-marker { font-size: 9px; color: rgba(96,165,250,0.3); margin-bottom: 0; letter-spacing: 0.2em; }
+  .signal-quote { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 500; color: #bfbfbf; line-height: 1.4; letter-spacing: -0.01em; transition: color 0.3s; }
   .signal-item:hover .signal-quote { color: #ffffff; }
 
   /* TERMINAL */
@@ -233,6 +455,10 @@
     #realizations, #philosophy, #signals, #future, #terminal, footer { padding: 60px 32px; }
     .philosophy-grid { grid-template-columns: 1fr; }
     .philo-item:nth-child(even) { padding-left: 0; border-left: none; }
+    .realization-list { grid-template-columns: 1fr; }
+    .signals-list { grid-template-columns: 1fr; }
+    .hero-desc { flex-direction: column; gap: 0; }
+    #terminal-panel { max-width: 90vw; height: 60vh; }
   }
 
   @media (max-width: 600px) {
@@ -305,6 +531,14 @@
     .modal-label { font-size: 7px; margin-bottom: 8px; }
     .modal-body { font-size: 10px; line-height: 1.7; }
     .modal-insight { padding: 12px 16px; font-size: 10px; margin-top: 20px; }
+    #portfolio-btn { top: 50px; right: 10px; width: 70px; height: 28px; font-size: 9px; }
+    #portfolio-panel { top: 85px; right: 10px; width: 250px; padding: 16px; }
+    .panel-section h3 { font-size: 11px; }
+    .panel-section p { font-size: 10px; }
+    #terminal-btn { top: 10px; right: 10px; width: 36px; height: 36px; font-size: 16px; }
+    #terminal-panel { max-width: 95vw; height: 80vh; max-height: none; margin-bottom: 0; width: calc(100vw - 20px); margin-right: 10px; }
+    .terminal-body { font-size: 11px; padding: 12px; }
+    .terminal-section { font-size: 10px; }
   }
 </style>
 </head>
@@ -321,6 +555,39 @@
   <span class="nav-tag">SYSTEM_LOG / v1.0</span>
   <div class="nav-status"><div class="status-dot"></div><span>SYSTEM ACTIVE</span></div>
 </nav>
+
+<button id="portfolio-btn">Portfolio</button>
+<div id="portfolio-panel">
+  <div class="panel-section">
+    <h3>Experience</h3>
+    <p>7+ years in technology, specializing in AI systems and software development.</p>
+  </div>
+  <div class="panel-section">
+    <h3>Projects</h3>
+    <p>EIGHTY6TH apparel brand, web applications, and experimental AI projects.</p>
+  </div>
+  <div class="panel-section">
+    <h3>Skills</h3>
+    <p>AI/ML, Python, JavaScript, systems design, and creative problem-solving.</p>
+  </div>
+</div>
+
+<button id="terminal-btn">⌘</button>
+<div id="terminal-overlay">
+  <div id="terminal-panel">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <div class="terminal-dot dot-red"></div>
+        <div class="terminal-dot dot-yellow"></div>
+        <div class="terminal-dot dot-green"></div>
+      </div>
+      <div class="terminal-title">fayas@system:~</div>
+      <button class="terminal-close">×</button>
+    </div>
+    <div class="terminal-body" id="terminal-body">
+    </div>
+  </div>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -510,12 +777,12 @@
     <h2 class="section-title">Core Realizations</h2>
   </div>
   <div class="realization-list">
-    <div class="realization-item"><span class="r-index">01</span><span class="r-text" style="color:#ffffff;">Effort ≠ Outcome.</span></div>
-    <div class="realization-item"><span class="r-index">02</span><span class="r-text" style="color:#bfbfbf;">Belief ≠ Results.</span></div>
-    <div class="realization-item"><span class="r-index">03</span><span class="r-text" style="color:#6b7280;">Systems create results. Reality doesn't reward intention.</span></div>
-    <div class="realization-item"><span class="r-index">04</span><span class="r-text" style="color:#6b7280;">Distribution beats product. Every time.</span></div>
-    <div class="realization-item"><span class="r-index">05</span><span class="r-text" style="color:#bfbfbf;">Validation is optional. Feedback is not.</span></div>
-    <div class="realization-item"><span class="r-index">06</span><span class="r-text" style="color:#e2e8f0;">Maybe sometimes burning a little is worth it for the right people.</span></div>
+    <div class="realization-item"><span class="r-index">01</span><span class="r-text" style="color:#ffffff;">Effort ≠ Outcome</span></div>
+    <div class="realization-item"><span class="r-index">02</span><span class="r-text" style="color:#bfbfbf;">Belief ≠ Results</span></div>
+    <div class="realization-item"><span class="r-index">03</span><span class="r-text" style="color:#6b7280;">Systems > Intention</span></div>
+    <div class="realization-item"><span class="r-index">04</span><span class="r-text" style="color:#6b7280;">Distribution > Product</span></div>
+    <div class="realization-item"><span class="r-index">05</span><span class="r-text" style="color:#bfbfbf;">Validation Optional</span></div>
+    <div class="realization-item"><span class="r-index">06</span><span class="r-text" style="color:#e2e8f0;">Burning Worth It</span></div>
   </div>
 </section>
 
@@ -526,12 +793,12 @@
     <h2 class="section-title">Operating Principles</h2>
   </div>
   <div class="philosophy-grid">
-    <div class="philo-item"><div class="philo-text">Life has no built-in meaning — we construct it.</div></div>
-    <div class="philo-item"><div class="philo-text">Risk is required for anything real.</div></div>
-    <div class="philo-item"><div class="philo-text">Direction matters more than effort.</div></div>
-    <div class="philo-item"><div class="philo-text">Most people optimize for safety, not truth.</div></div>
-    <div class="philo-item"><div class="philo-text">Pain teaches faster than comfort.</div></div>
-    <div class="philo-item"><div class="philo-text">Meaning isn't found. It's built.</div></div>
+    <div class="philo-item"><div class="philo-text">Life: Constructed.</div></div>
+    <div class="philo-item"><div class="philo-text">Risk: Essential.</div></div>
+    <div class="philo-item"><div class="philo-text">Direction: Priority.</div></div>
+    <div class="philo-item"><div class="philo-text">Safety: Trap.</div></div>
+    <div class="philo-item"><div class="philo-text">Pain: Teacher.</div></div>
+    <div class="philo-item"><div class="philo-text">Meaning: Created.</div></div>
   </div>
 </section>
 
@@ -663,6 +930,179 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80); });
 }, {threshold:0.12});
 document.querySelectorAll('.metric-item,.tl-event,.realization-item,.future-item,.philo-item,.signal-item').forEach(el=>obs.observe(el));
+
+const portfolioBtn = document.getElementById('portfolio-btn');
+const portfolioPanel = document.getElementById('portfolio-panel');
+portfolioBtn.addEventListener('click', () => {
+  portfolioPanel.classList.toggle('open');
+});
+document.addEventListener('click', (e) => {
+  if (!portfolioBtn.contains(e.target) && !portfolioPanel.contains(e.target)) {
+    portfolioPanel.classList.remove('open');
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    portfolioPanel.classList.remove('open');
+  }
+});
+
+// Terminal System
+const terminalBtn = document.getElementById('terminal-btn');
+const terminalOverlay = document.getElementById('terminal-overlay');
+const terminalBody = document.getElementById('terminal-body');
+const terminalClose = document.querySelector('.terminal-close');
+
+const terminalContent = {
+  experience: [
+    'Fayas P Sulfikkar — Systems & AI',
+    '',
+    '▸ Trader & Pattern Recognition',
+    '  Financial markets, data analysis',
+    '  2022-2024',
+    '',
+    '▸ Apparel Brand Founder',
+    '  EIGHTY6TH — design & production',
+    '  2023-2026',
+    '',
+    '▸ Software Development',
+    '  Web, AI/ML, systems design',
+    '  Continuous learning'
+  ],
+  projects: [
+    'EIGHTY6TH — Apparel Brand',
+    '  Premium printing + distribution',
+    '',
+    'Portfolio Website',
+    '  System log design, interactive UI',
+    '',
+    'AI/ML Research',
+    '  Pattern recognition systems',
+    '',
+    'Web Applications',
+    '  Custom frameworks, real-time systems'
+  ],
+  skills: [
+    'Languages: Python, JavaScript, SQL',
+    '',
+    'AI/ML: TensorFlow, Pattern Analysis',
+    '',
+    'Web: React, Node.js, Full Stack',
+    '',
+    'Systems: Architecture, Trading',
+    '',
+    'Core: Problem-solving, Systems Design'
+  ]
+};
+
+function typeText(text, callback) {
+  let index = 0;
+  const prompt = document.createElement('div');
+  prompt.className = 'terminal-line';
+  prompt.innerHTML = `<span class="terminal-prompt">></span><span class="terminal-command"></span><span class="typing-cursor"></span>`;
+  const cmdSpan = prompt.querySelector('.terminal-command');
+  const cursor = prompt.querySelector('.typing-cursor');
+  terminalBody.appendChild(prompt);
+  terminalBody.scrollTop = terminalBody.scrollHeight;
+
+  function type() {
+    if (index < text.length) {
+      cmdSpan.textContent = text.substring(0, index + 1);
+      index++;
+      setTimeout(type, 40);
+    } else {
+      cursor.style.display = 'none';
+      setTimeout(() => {
+        if (callback) callback();
+      }, 200);
+    }
+  }
+  type();
+}
+
+function printOutput(text) {
+  const output = document.createElement('div');
+  output.className = 'terminal-line';
+  output.innerHTML = `<span class="terminal-output">${text}</span>`;
+  output.style.opacity = '0';
+  terminalBody.appendChild(output);
+  terminalBody.scrollTop = terminalBody.scrollHeight;
+  setTimeout(() => {
+    output.style.transition = 'opacity 0.3s';
+    output.style.opacity = '1';
+  }, 10);
+}
+
+function printSection(title, content) {
+  const section = document.createElement('div');
+  section.className = 'terminal-section';
+  section.innerHTML = `<div class="terminal-section-title">${title}</div><div class="terminal-section-content">${content.map(line => `<div>${line}</div>`).join('')}</div>`;
+  section.style.opacity = '0';
+  terminalBody.appendChild(section);
+  terminalBody.scrollTop = terminalBody.scrollHeight;
+  setTimeout(() => {
+    section.style.transition = 'opacity 0.3s';
+    section.style.opacity = '1';
+  }, 10);
+}
+
+function startTerminal() {
+  terminalBody.innerHTML = '';
+  typeText('whoami', () => {
+    printOutput('Fayas P Sulfikkar');
+    setTimeout(() => {
+      printOutput('');
+      typeText('ls portfolio', () => {
+        printOutput('experience  projects  skills');
+        setTimeout(() => {
+          printOutput('');
+          printOutput('type: open experience');
+          printOutput('type: open projects');
+          printOutput('type: open skills');
+          printOutput('');
+        }, 300);
+      });
+    }, 400);
+  });
+}
+
+terminalBtn.addEventListener('click', () => {
+  terminalOverlay.classList.toggle('open');
+  if (terminalOverlay.classList.contains('open')) {
+    startTerminal();
+  }
+});
+
+terminalClose.addEventListener('click', () => {
+  terminalOverlay.classList.remove('open');
+});
+
+terminalOverlay.addEventListener('click', (e) => {
+  if (e.target === terminalOverlay) {
+    terminalOverlay.classList.remove('open');
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && terminalOverlay.classList.contains('open')) {
+    terminalOverlay.classList.remove('open');
+  }
+});
+
+// Terminal command handling from body clicks
+terminalBody.addEventListener('click', (e) => {
+  if (e.target.classList.contains('terminal-clickable')) {
+    const cmd = e.target.textContent;
+    const category = cmd.replace('open ', '').trim();
+    if (terminalContent[category]) {
+      setTimeout(() => {
+        printOutput('');
+        printSection(category.charAt(0).toUpperCase() + category.slice(1), terminalContent[category]);
+        printOutput('');
+      }, 300);
+    }
+  }
+});
 </script>
 </body>
 </html>
