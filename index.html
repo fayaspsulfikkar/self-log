@@ -436,6 +436,11 @@
   }
 
   @media (max-width: 600px) {
+    #progress {
+      height: 3px;
+      background: linear-gradient(90deg, rgba(96,165,250,0.2), var(--accent-solid), rgba(96,165,250,0.2));
+      box-shadow: 0 0 12px rgba(96,165,250,0.7);
+    }
     nav {
       padding: 10px 14px;
       display: grid;
@@ -585,7 +590,7 @@
 <nav>
   <a href="#hero" class="nav-logo">FAYAS</a>
   <span class="nav-tag">SYSTEM_LOG / v1.0</span>
-  <a href="#" class="nav-portfolio" id="portfolio-btn">
+  <a href="https://portfolio-fayas.vercel.app/" class="nav-portfolio" id="portfolio-btn" target="_blank" rel="noreferrer">
     <span class="nav-portfolio-icon" aria-hidden="true">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/>
@@ -1000,7 +1005,6 @@ function typeHeroText() {
 typeHeroText();
 
 // Terminal System
-const terminalBtn = document.getElementById('portfolio-btn');
 const terminalOverlay = document.getElementById('terminal-overlay');
 const terminalBody = document.getElementById('terminal-body');
 const terminalClose = document.querySelector('.terminal-close');
@@ -1117,13 +1121,6 @@ function startTerminal() {
     }, 400);
   });
 }
-
-terminalBtn.addEventListener('click', () => {
-  terminalOverlay.classList.toggle('open');
-  if (terminalOverlay.classList.contains('open')) {
-    startTerminal();
-  }
-});
 
 terminalClose.addEventListener('click', () => {
   terminalOverlay.classList.remove('open');
