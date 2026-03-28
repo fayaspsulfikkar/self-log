@@ -1,148 +1,96 @@
-# FAYAS — System Log: Human v1.0
+# Self Log Portfolio
 
-A personal portfolio website with a terminal-style UI, interactive animations, and smooth performance optimizations.
+A single-page personal portfolio for Fayas P Sulfikkar built with plain HTML, CSS, and JavaScript. The site uses a system-log visual language, animated timeline storytelling, and a terminal-inspired interaction model.
 
-## 🎯 Features
+## Overview
 
-- **Terminal-Style Interface**: Command-line inspired design with system-like aesthetic
-- **Interactive Cursor**: Custom cursor with smooth, GPU-accelerated animations
-- **Terminal Panel**: Hidden portfolio accessed via "> Portfolio" button with typing animations
-- **Smooth Animations**: Optimized transitions using transform-based animations and cubic-bezier easing
-- **Responsive Design**: Fully mobile-optimized with breakpoints at 900px and 600px
-- **Performance**: GPU-accelerated animations, transform-based cursor, and will-change optimizations
-- **Pure Web Stack**: No frameworks—just vanilla HTML, CSS, and JavaScript
+This repository contains a static portfolio experience centered around:
 
-## 🚀 Getting Started
+- a cinematic hero section
+- an event-log timeline with modal detail views
+- a custom cursor and scroll progress treatment
+- responsive layouts tuned for desktop, tablet, and mobile
+- a lightweight setup with no frontend framework
 
-### Basic Usage
-Simply open `index.html` in your browser:
+## Stack
+
+- HTML
+- CSS
+- JavaScript
+- Google Fonts
+
+## Local Development
+
+Start a local server from the project root:
+
 ```bash
-open index.html
+npm run dev
 ```
 
-### Project Structure
-```
-/Users/fayas/Desktop/Self-/
-├── index.html          # Main file with all HTML, CSS, and JS
-├── package.json        # Project metadata
-├── .gitignore         # Git configuration
-└── README.md          # This file
+Then open:
+
+```text
+http://localhost:8000
 ```
 
-## 🎨 Design System
+You can also use:
 
-### Color Palette
-- **Base**: `#050507` - Dark background
-- **Accent**: `#60a5fa` - Bright blue highlights
-- **Text**: `#f0f0f2` - Primary text
-- **Muted**: `#4b5563` - Secondary text
+```bash
+npm run serve
+```
 
-### Typography
-- **Syne**: Headers and bold text (800, 700, 600, 500, 400 weights)
-- **DM Mono**: Body text and terminal commands
+## Project Structure
 
-## 🎬 Animation Features
+```text
+.
+├── .editorconfig
+├── .github/
+│   └── workflows/
+│       └── pages.yml
+├── .gitignore
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── index.html
+└── package.json
+```
 
-### Cursor Animations
-- Custom circular cursor that follows mouse movement
-- Smooth tracking with elastic easing (cubic-bezier)
-- GPU-accelerated using `transform` instead of position properties
-- Expands on interactive element hover
+## Key Features
 
-### Section Animations
-- **fadeUp**: Elements fade in and slide up on scroll
-- **orbFloat**: The hero orb floats with smooth breathing motion
-- **Slide Transitions**: Content slides in with smooth easing
+- Terminal-inspired visual identity with a narrative portfolio layout
+- Scroll-based reveal animations using Intersection Observer
+- Interactive timeline cards backed by a modal content data structure
+- Fully responsive behavior for smaller screens
+- Static deployment compatibility, including GitHub Pages
 
-### Performance Optimizations
-- `will-change` properties for GPU hints
-- `transform: translateZ(0)` for hardware acceleration
-- `backface-visibility: hidden` to prevent flicker
-- Event throttling on mousemove
-- RequestAnimationFrame for smooth 60fps animations
+## Editing Guide
 
-## 📱 Responsive Breakpoints
+The site content is primarily maintained in [index.html](index.html):
 
-### Desktop (900px+)
-- Full layout with timeline spine
-- 2-column philosophy/signals grid
-- Large terminal panel
+- hero copy is defined in the hero section markup
+- timeline cards are defined in the timeline section markup
+- modal timeline content is driven by the `D` array in the script block
+- terminal panel text is configured in the `terminalContent` object
 
-### Tablet (600px - 900px)
-- Single column layouts
-- Adjusted padding and font sizes
-- Streamlined terminal panel
+## Deployment
 
-### Mobile (< 600px)
-- Mobile-optimized spacing
-- Adjusted button sizes
-- Full-width terminal panel
+The repository includes a GitHub Actions workflow for GitHub Pages deployment in [.github/workflows/pages.yml](.github/workflows/pages.yml).
 
-## 🖱️ Interactive Elements
+To use it:
 
-### Portfolio Button ("> Portfolio")
-- Located at bottom-right corner
-- Subtle when inactive (60% opacity)
-- Glows on hover
-- Opens terminal panel with interactive portfolio information
+1. Push the repository to GitHub.
+2. In the repository settings, enable GitHub Pages with GitHub Actions as the source.
+3. Push to `main` to trigger deployment.
 
-### Terminal Panel
-- Typing animation effect for commands
-- Interactive sections: Experience, Projects, Skills
-- Glassmorphism design with backdrop blur
-- Smooth slide-in animation
+## Quality Notes
 
-### Custom Cursor
-- Smooth tracking without lag
-- Expands on hover over interactive elements
-- Blends with page using screen mix-blend-mode
+This project intentionally keeps the implementation simple and portable:
 
-## 🔧 Technical Specifications
+- no build step
+- no framework lock-in
+- easy local preview with a static server
+- straightforward hosting on GitHub Pages or any static host
 
-### Browser Support
-- Chrome/Edge: Full support
-- Firefox: Full support
-- Safari: Full support (including iOS)
+## License
 
-### Performance Targets
-- **60 FPS** animations
-- **<100ms** cursor latency
-- **Smooth scrolling** with GPU acceleration
-
-### File Size
-- Single HTML file: ~85KB (minified)
-- No external dependencies
-- Fonts loaded from Google Fonts CDN
-
-## 📝 Create/Update Mode
-
-To modify the portfolio content:
-1. Edit the terminal content in the JavaScript section
-2. Update timeline events in the `D` array
-3. Modify philosophy/realization sections in HTML
-4. Update contact info in the footer
-
-## 🎓 Learning Resources
-
-This project demonstrates:
-- Custom cursor implementation
-- Performance-optimized animations
-- Terminal UI design principles
-- Responsive CSS Grid layouts
-- Intersection Observer API
-- Modern JavaScript patterns
-
-## 📄 License
-
-MIT License - Feel free to use this as a template for your own portfolio.
-
-## 👤 Author
-
-**Fayas P Sulfikkar**
-- Location: Wayanad, India
-- Repository: https://github.com/fayaspsulfikkar/self-log
-
----
-
-**Last Updated:** March 26, 2026
-**Version:** 1.0.0
+This project is licensed under the MIT License. See [LICENSE](LICENSE).

@@ -36,10 +36,97 @@
   #cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(96,165,250,0.3); border-radius: 50%; pointer-events: none; z-index: 9999; transition: width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform, width, height; transform: translateZ(0); backface-visibility: hidden; }
   #progress { position: fixed; top: 0; left: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-solid), transparent); z-index: 1000; transition: width 0.1s linear; }
 
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 22px 56px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); background: rgba(5,5,7,0.7); border-bottom: 1px solid var(--line); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 22px 56px; display: flex; justify-content: flex-start; gap: 16px; align-items: center; backdrop-filter: blur(10px); background: rgba(5,5,7,0.7); border-bottom: 1px solid var(--line); }
   .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 0.3em; color: var(--text-primary); text-decoration: none; }
   .nav-tag { font-size: 10px; color: var(--text-muted); letter-spacing: 0.2em; }
   .nav-status { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; }
+  .nav-music-player {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 0;
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    border-radius: 999px;
+    min-height: 22px;
+  }
+  .music-toggle {
+    border: none;
+    background: transparent;
+    color: var(--accent-solid);
+    font-size: 7px;
+    letter-spacing: 0.14em;
+    cursor: none;
+    padding: 0;
+    min-width: 28px;
+    text-align: center;
+    line-height: 1;
+  }
+  .music-eq {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 1px;
+    height: 8px;
+  }
+  .music-eq span {
+    width: 2px;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(96,165,250,0.4);
+    transition: background 0.2s ease;
+  }
+  .nav-music-player.is-playing .music-eq span {
+    background: var(--accent-solid);
+    animation: musicBar 0.9s ease-in-out infinite;
+  }
+  .nav-music-player.is-playing .music-eq span:nth-child(2) { animation-delay: 0.12s; }
+  .nav-music-player.is-playing .music-eq span:nth-child(3) { animation-delay: 0.24s; }
+  .music-label {
+    display: none;
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+  }
+  #music-volume {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 52px;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(96,165,250,0.25);
+    outline: none;
+  }
+  #music-volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid rgba(96,165,250,0.35);
+    background: rgba(5,5,7,0.9);
+  }
+  #music-volume::-moz-range-thumb {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid rgba(96,165,250,0.35);
+    background: rgba(5,5,7,0.9);
+  }
+  .music-state {
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    min-width: 20px;
+    text-align: right;
+  }
+  @keyframes musicBar {
+    0%, 100% { height: 2px; opacity: 0.5; }
+    50% { height: 8px; opacity: 1; }
+  }
   .nav-portfolio {
     font-size: 10px;
     color: var(--accent-solid);
@@ -85,9 +172,168 @@
     text-decoration: none;
     cursor: none;
     transition: color 0.2s ease;
+    margin-left: auto;
   }
   #portfolio-btn:hover {
     color: var(--text-primary);
+  }
+
+  .intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 240;
+    background:
+      radial-gradient(ellipse at 50% 28%, rgba(96,165,250,0.16), rgba(5,5,7,0.86) 58%),
+      repeating-linear-gradient(0deg, rgba(148,163,184,0.035) 0 1px, transparent 1px 3px),
+      rgba(5,5,7,0.78);
+    backdrop-filter: blur(12px) saturate(112%);
+    -webkit-backdrop-filter: blur(12px) saturate(112%);
+    opacity: 1;
+    transition: opacity 0.35s ease;
+  }
+  .intro-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .intro-card {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 250;
+    width: min(92vw, 520px);
+    padding: 0;
+    border: 1px solid rgba(96,165,250,0.30);
+    border-radius: 2px;
+    background:
+      linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.01) 38%, rgba(96,165,250,0.10));
+    box-shadow:
+      0 30px 72px rgba(0,0,0,0.68),
+      0 0 0 1px rgba(96,165,250,0.14),
+      0 0 40px rgba(96,165,250,0.16),
+      inset 0 1px 0 rgba(255,255,255,0.12);
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    overflow: hidden;
+    transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+    animation: introCardFloat 4.8s ease-in-out infinite;
+  }
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(96,165,250,0.18), transparent 32%),
+      repeating-linear-gradient(0deg, rgba(148,163,184,0.04) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+    opacity: 0.72;
+  }
+  .intro-card::after {
+    content: '';
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(147,197,253,0.95), transparent);
+    pointer-events: none;
+    animation: introEdgePulse 2.2s ease-in-out infinite;
+  }
+  .intro-card.hidden {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+    filter: blur(2px);
+    pointer-events: none;
+  }
+  .intro-card-kicker {
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    color: rgba(148,163,184,0.92);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .intro-card-text {
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: #dbe4f2;
+    line-height: 1.7;
+  }
+  .intro-card-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(96,165,250,0.22);
+    background: rgba(96,165,250,0.05);
+    position: relative;
+    z-index: 1;
+  }
+  .intro-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(96,165,250,0.34);
+  }
+  .intro-head-label {
+    margin-left: auto;
+    font-size: 8px;
+    letter-spacing: 0.28em;
+    color: rgba(191,219,254,0.9);
+    text-transform: uppercase;
+  }
+  .intro-card-body {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 16px 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .intro-meta {
+    margin-top: 10px;
+    font-size: 9px;
+    color: rgba(96,165,250,0.78);
+    letter-spacing: 0.14em;
+  }
+  .intro-card-btn {
+    border: 1px solid rgba(147,197,253,0.48);
+    background: linear-gradient(180deg, rgba(96,165,250,0.34), rgba(96,165,250,0.12));
+    color: var(--accent-solid);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    padding: 10px 14px;
+    border-radius: 2px;
+    cursor: none;
+    white-space: nowrap;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(96,165,250,0.20);
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .intro-card-btn::before {
+    content: 'run: ';
+    opacity: 0.75;
+  }
+  .intro-card-btn:hover {
+    border-color: rgba(191,219,254,0.65);
+    background: linear-gradient(180deg, rgba(96,165,250,0.44), rgba(96,165,250,0.16));
+    color: #dbeafe;
+    box-shadow: 0 0 26px rgba(96,165,250,0.36);
+    transform: translateY(-1px);
+  }
+
+  @keyframes introCardFloat {
+    0%, 100% { transform: translate(-50%, -50%); }
+    50% { transform: translate(-50%, calc(-50% - 3px)); }
+  }
+
+  @keyframes introEdgePulse {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
   }
 
   #terminal-overlay {
@@ -228,6 +474,64 @@
   }
 
   section { position: relative; z-index: 1; }
+
+  /* SYSTEM SCROLL REVEAL */
+  .reveal-target {
+    opacity: 1;
+    transform: none !important;
+    filter: none;
+    clip-path: none;
+    transition: none;
+    will-change: auto;
+    backface-visibility: hidden;
+  }
+  .reveal-target.reveal-left {
+    --reveal-x: 0;
+    --reveal-y: 0;
+  }
+  .reveal-target.reveal-right {
+    --reveal-x: 0;
+    --reveal-y: 0;
+  }
+  .reveal-target.reveal-section {
+    --reveal-y: 0;
+  }
+  .reveal-target.is-visible {
+    opacity: 1;
+    transform: none !important;
+    filter: none;
+    clip-path: none;
+    animation: none;
+  }
+
+  @keyframes terminalRewrite {
+    0% {
+      opacity: 0;
+      filter: blur(1px);
+      text-shadow: 0 0 0 rgba(96,165,250,0);
+    }
+    35% {
+      opacity: 0.55;
+      filter: blur(0.7px);
+      text-shadow: 0 0 6px rgba(96,165,250,0.35);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0);
+      text-shadow: 0 0 0 rgba(96,165,250,0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-target {
+      transition: none;
+      opacity: 1;
+      transform: none;
+      filter: none;
+      clip-path: none;
+      animation: none;
+    }
+  }
 
   /* HERO */
   #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 0 80px; gap: 40px; background: radial-gradient(ellipse at 20% 50%, rgba(15,25,55,0.5) 0%, transparent 60%), linear-gradient(180deg, var(--bg-base) 0%, var(--bg-mid) 100%); }
@@ -405,6 +709,37 @@
   .end-text { font-family: 'Syne', sans-serif; font-size: clamp(48px,7vw,88px); font-weight: 800; letter-spacing: -0.03em; color: rgba(255,255,255,0.06); line-height: 0.9; position: relative; z-index: 1; }
   .end-text-main { font-family: 'Syne', sans-serif; font-size: clamp(16px,2.5vw,22px); font-weight: 600; color: var(--text-secondary); position: relative; z-index: 1; margin-top: 12px; }
   .end-sub { font-size: 9px; letter-spacing: 0.4em; color: var(--text-muted); margin-top: 24px; position: relative; z-index: 1; text-transform: uppercase; }
+  .end-contact {
+    margin-top: 26px;
+    display: flex;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .end-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 168px;
+    padding: 10px 16px;
+    border: 1px solid rgba(96,165,250,0.28);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--accent-solid);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    background: linear-gradient(145deg, rgba(96,165,250,0.12), rgba(96,165,250,0.03));
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    cursor: none;
+  }
+  .end-contact-btn:hover {
+    color: #dbeafe;
+    border-color: rgba(96,165,250,0.5);
+    background: linear-gradient(145deg, rgba(96,165,250,0.2), rgba(96,165,250,0.08));
+    transform: translateY(-1px);
+  }
 
   footer { padding: 28px 80px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
   .footer-left { font-size: 10px; color: var(--text-muted); letter-spacing: 0.2em; }
@@ -486,9 +821,65 @@
       gap: 6px;
       opacity: 0.9;
     }
+    .nav-music-player {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      margin-left: 0;
+      margin-top: 0;
+      width: auto;
+      min-height: 18px;
+      padding: 3px 6px;
+      gap: 5px;
+      z-index: 2;
+    }
+    .music-toggle,
+    .music-state {
+      font-size: 6px;
+    }
+    .music-eq {
+      height: 6px;
+    }
+    .music-eq span {
+      width: 1px;
+    }
+    #music-volume {
+      width: 40px;
+      min-width: 40px;
+    }
+    .music-state {
+      min-width: 16px;
+    }
     .status-dot {
       width: 4px;
       height: 4px;
+    }
+    .intro-card {
+      top: 50%;
+      width: calc(100vw - 20px);
+      border-radius: 2px;
+      animation: none;
+    }
+    .intro-card-head {
+      padding: 10px 10px;
+    }
+    .intro-card-body {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 12px 10px 10px;
+    }
+    .intro-card-kicker {
+      font-size: 7px;
+    }
+    .intro-card-text {
+      font-size: 9px;
+    }
+    .intro-card-btn {
+      justify-self: start;
+      font-size: 8px;
+      padding: 8px 10px;
+      letter-spacing: 0.14em;
     }
     #hero { padding: 80px 20px 40px; }
     .hero-boot { font-size: 7px; margin-bottom: 16px; }
@@ -562,6 +953,13 @@
     .end-text { font-size: clamp(36px, 10vw, 60px); }
     .end-text-main { font-size: clamp(12px, 3vw, 18px); margin-top: 8px; }
     .end-sub { font-size: 7px; margin-top: 16px; }
+    .end-contact { margin-top: 18px; gap: 8px; }
+    .end-contact-btn {
+      min-width: 150px;
+      font-size: 8px;
+      padding: 9px 12px;
+      letter-spacing: 0.14em;
+    }
     footer { padding: 20px 20px; }
     .footer-left, .footer-right { font-size: 8px; }
     .modal { padding: 32px 24px; max-width: 90%; }
@@ -602,8 +1000,38 @@
     </span>
     Portfolio
   </a>
+  <div class="nav-music-player" id="nav-music-player" aria-label="Background music player">
+    <button class="music-toggle" id="music-toggle" type="button" aria-label="Play background music" aria-pressed="false">PLAY</button>
+    <div class="music-eq" aria-hidden="true"><span></span><span></span><span></span></div>
+    <span class="music-label">BGM</span>
+    <input id="music-volume" type="range" min="0" max="1" step="0.05" value="0.35" aria-label="Music volume">
+    <span class="music-state" id="music-state">OFF</span>
+  </div>
   <div class="nav-status"><div class="status-dot"></div><span>SYSTEM ACTIVE</span></div>
 </nav>
+
+<div class="intro-overlay" id="intro-overlay" aria-hidden="true"></div>
+
+<div class="intro-card" id="intro-card" role="region" aria-label="Start experience">
+  <div class="intro-card-head" aria-hidden="true">
+    <span class="intro-dot"></span>
+    <span class="intro-dot"></span>
+    <span class="intro-dot"></span>
+    <span class="intro-head-label">BOOT GATE</span>
+  </div>
+  <div class="intro-card-body">
+    <div>
+      <div class="intro-card-kicker">SYSTEM ENTRY CHECK</div>
+      <div class="intro-card-text">Initialize audio channel and load interactive layers before entering the full timeline interface.</div>
+      <div class="intro-meta">STATUS: STANDBY // INPUT REQUIRED</div>
+    </div>
+    <button class="intro-card-btn" id="intro-start-btn" type="button">enter_system</button>
+  </div>
+</div>
+
+<audio id="bg-music" loop preload="auto" autoplay playsinline>
+  <source src="assets/audio/background.mp3" type="audio/mpeg">
+</audio>
 
 <div id="terminal-overlay">
   <div id="terminal-panel">
@@ -673,9 +1101,9 @@
       <div class="tl-content">
         <div class="tl-phase">ORIGIN</div>
         <div class="tl-date">2002 — 2015</div>
-        <div class="tl-title">Childhood — The Strange Kid</div>
-        <div class="tl-details">Didn't fit the mold. Not seen as special — not even average. Society had a verdict early. Didn't argue with it. Just observed quietly and waited.</div>
-        <div class="tl-insight">Observation is a form of patience. Patience is a form of preparation.</div>
+        <div class="tl-title">Childhood — Quiet Observer</div>
+        <div class="tl-details">Moved differently from most kids. Rarely understood, rarely noticed in the right ways. Learned early to stay quiet, watch closely, and understand people before speaking.</div>
+        <div class="tl-insight">Observation became the first skill. Silence became the first teacher.</div>
         <div class="tl-expand">→ expand</div>
       </div>
       <div class="tl-node-wrap"><div class="tl-node"></div></div>
@@ -903,6 +1331,10 @@
   <div class="end-text">STILL<br>BUILDING.</div>
   <div class="end-text-main">This is not the end of the system.</div>
   <div class="end-sub">THIS IS VERSION CONTROL // EOF NOT REACHED</div>
+  <div class="end-contact" aria-label="Contact links">
+    <a class="end-contact-btn" href="https://instagram.com/fayaspsulfikkar" target="_blank" rel="noreferrer">INSTAGRAM</a>
+    <a class="end-contact-btn" href="tel:9745413630">CALL</a>
+  </div>
 </section>
 
 <footer>
@@ -925,7 +1357,7 @@
 
 <script>
 const D = [
-  { ph:"ORIGIN", dt:"2002 — 2015", ti:"Childhood — The Strange Kid", story:"Childhood didn't feel like something good. Not from society. Wasn't seen as special — not even average. No labels of promise, no expectations of greatness. Just a kid who didn't fit the pattern everyone else seemed to follow naturally.", cost:"Social confidence. The kind that most people build in those early years. It took a long time to replace it with something more honest and self-constructed.", insight:"I didn't prove them wrong. I just stayed quiet and observed.", fail:false },
+  { ph:"ORIGIN", dt:"2002 — 2015", ti:"Childhood — Quiet Observer", story:"Childhood felt like standing slightly outside the frame. I moved differently, noticed things other people missed, and learned early that silence could be safer than explanation. While others seemed to fit naturally into the rhythm around them, I was mostly watching, studying, and making sense of it in my own way.", cost:"A simple sense of belonging. The kind many people build without thinking in those early years. It took time to rebuild that internally, in a way that felt real instead of borrowed.", insight:"Observation became the first skill. Silence became the first teacher.", fail:false },
   { ph:"REALITY OVERRIDE", dt:"2019 — AGE 17", ti:"First System Rewrite", story:"A question appeared that couldn't be ignored: 'What do you want to become?' Not from a teacher or parent — from inside. Sat with it seriously. Concluded that life has no default meaning, no pre-assigned script. Meaning is not found — it is created. This was the first time the operating system got rewritten from scratch.", cost:"The comfort of a pre-assigned path. Gave up the script. No replacement was ready. Uncertainty became the baseline.", insight:"Life has no built-in meaning → we construct it. This was the first rewrite.", fail:false },
   { ph:"SAFE MODE DISABLED", dt:"2019", ti:"Dropped Out — Drinking Water Business", story:"Dropped out of ITI. Chose uncertainty over stability with no plan B in place. First attempt: a drinking water business. Had none of the ingredients required — no experience in the industry, zero network, and poor capital allocation from the start.", cost:"Time. The early capital. And the quiet confidence that can come from a first attempt going reasonably well. This one didn't.", insight:"Overconfidence without understanding is just noise with momentum.", fail:true },
   { ph:"ITERATION → COLLAPSE", dt:"2019 — 2020", ti:"Restaurant Reservation Platform", story:"Spent 6+ months iterating seriously on a restaurant reservation platform. Eventually stopped. The realization was uncomfortable: entrepreneurship without financial stability is a high-risk game — especially with no safety net beneath you. Effort was there. Direction wasn't.", cost:"6 months of full effort and belief. And the assumption that working hard in any direction is the same as working smart in the right one.", insight:"Direction matters more than effort. One of the most important things I've learned.", fail:true },
@@ -973,15 +1405,216 @@ document.querySelectorAll('a,button,.tl-event,.realization-item,.future-item,.si
   el.addEventListener('mouseleave', () => { ring.style.width='32px'; ring.style.height='32px'; cur.style.transform='scale(1)'; });
 });
 
+// Background music controls
+const bgMusic = document.getElementById('bg-music');
+const musicToggle = document.getElementById('music-toggle');
+const musicVolume = document.getElementById('music-volume');
+const musicState = document.getElementById('music-state');
+const navMusicPlayer = document.getElementById('nav-music-player');
+const MUSIC_STATE_KEY = 'fayas_music_state_v1';
+const MUSIC_VOLUME_KEY = 'fayas_music_volume_v1';
+const AUTOPLAY_BY_DEFAULT = true;
+let pendingAutoplayUnmute = false;
+let userPausedByChoice = false;
+let requestMusicStart = async () => {};
+
+const introCard = document.getElementById('intro-card');
+const introOverlay = document.getElementById('intro-overlay');
+const introStartBtn = document.getElementById('intro-start-btn');
+
+function hideIntroCard() {
+  if (introOverlay && !introOverlay.classList.contains('hidden')) {
+    introOverlay.classList.add('hidden');
+    setTimeout(() => {
+      if (introOverlay && introOverlay.parentElement) {
+        introOverlay.remove();
+      }
+    }, 380);
+  }
+
+  if (!introCard || introCard.classList.contains('hidden')) return;
+  introCard.classList.add('hidden');
+  setTimeout(() => {
+    if (introCard && introCard.parentElement) {
+      introCard.remove();
+    }
+  }, 380);
+}
+
+function setMusicUI(isPlaying) {
+  navMusicPlayer.classList.toggle('is-playing', isPlaying);
+  musicToggle.textContent = isPlaying ? 'PAUSE' : 'PLAY';
+  musicToggle.setAttribute('aria-pressed', String(isPlaying));
+  musicToggle.setAttribute('aria-label', isPlaying ? 'Pause background music' : 'Play background music');
+  musicState.textContent = isPlaying ? (pendingAutoplayUnmute ? 'AUTO' : 'ON') : 'OFF';
+}
+
+async function playBackgroundMusic() {
+  if (!bgMusic) return;
+  try {
+    userPausedByChoice = false;
+    pendingAutoplayUnmute = false;
+    bgMusic.muted = false;
+    await bgMusic.play();
+    setMusicUI(true);
+    localStorage.setItem(MUSIC_STATE_KEY, 'playing');
+  } catch (_err) {
+    setMusicUI(false);
+  }
+}
+
+function pauseBackgroundMusic() {
+  if (!bgMusic) return;
+  userPausedByChoice = true;
+  bgMusic.pause();
+  setMusicUI(false);
+  localStorage.setItem(MUSIC_STATE_KEY, 'paused');
+}
+
+if (bgMusic && musicToggle && musicVolume && musicState && navMusicPlayer) {
+  const storedVolume = Number(localStorage.getItem(MUSIC_VOLUME_KEY));
+  const initialVolume = Number.isFinite(storedVolume) && storedVolume >= 0 && storedVolume <= 1 ? storedVolume : 0.35;
+  bgMusic.volume = initialVolume;
+  musicVolume.value = String(initialVolume);
+
+  const storedState = localStorage.getItem(MUSIC_STATE_KEY);
+  const shouldAutoplay = storedState ? storedState === 'playing' : AUTOPLAY_BY_DEFAULT;
+  setMusicUI(false);
+
+  musicToggle.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      playBackgroundMusic();
+    } else {
+      pauseBackgroundMusic();
+    }
+  });
+
+  musicVolume.addEventListener('input', () => {
+    const nextVolume = Number(musicVolume.value);
+    bgMusic.volume = nextVolume;
+    localStorage.setItem(MUSIC_VOLUME_KEY, String(nextVolume));
+  });
+
+  bgMusic.addEventListener('play', () => setMusicUI(true));
+  bgMusic.addEventListener('pause', () => setMusicUI(false));
+
+  const unlockAndResume = async () => {
+    if (userPausedByChoice && !pendingAutoplayUnmute) return;
+
+    if (pendingAutoplayUnmute) {
+      pendingAutoplayUnmute = false;
+      bgMusic.muted = false;
+      bgMusic.volume = Number(musicVolume.value || initialVolume);
+      try {
+        await bgMusic.play();
+        localStorage.setItem(MUSIC_STATE_KEY, 'playing');
+      } catch (_err) {
+        setMusicUI(false);
+      }
+      setMusicUI(!bgMusic.paused);
+      return;
+    }
+    playBackgroundMusic();
+  };
+
+  requestMusicStart = unlockAndResume;
+
+  const tryAutoplay = async () => {
+    if (userPausedByChoice) return;
+
+    try {
+      pendingAutoplayUnmute = false;
+      bgMusic.muted = false;
+      await bgMusic.play();
+      setMusicUI(true);
+      localStorage.setItem(MUSIC_STATE_KEY, 'playing');
+    } catch (_err) {
+      // If audible autoplay is blocked, start muted and unmute on first interaction.
+      try {
+        bgMusic.muted = true;
+        await bgMusic.play();
+        pendingAutoplayUnmute = true;
+        setMusicUI(true);
+        localStorage.setItem(MUSIC_STATE_KEY, 'playing');
+      } catch (_err2) {
+        pendingAutoplayUnmute = false;
+        setMusicUI(false);
+      }
+    }
+  };
+
+  if (shouldAutoplay) {
+    tryAutoplay();
+  }
+
+  // Always attach one-time interaction unlock handlers so playback can start
+  // even when previous saved state or policy checks prevented early autoplay.
+  ['pointerdown', 'keydown', 'touchstart', 'touchmove', 'click', 'wheel'].forEach((evtName) => {
+    document.addEventListener(evtName, unlockAndResume, { once: true, passive: true });
+  });
+
+  // Scroll is also treated as explicit user interaction for music start.
+  window.addEventListener('scroll', unlockAndResume, { once: true, passive: true });
+
+  bgMusic.addEventListener('canplay', () => {
+    if (!bgMusic.paused || userPausedByChoice) return;
+    unlockAndResume();
+  }, { once: true });
+}
+
+if (introStartBtn) {
+  introStartBtn.addEventListener('click', async () => {
+    await requestMusicStart();
+    hideIntroCard();
+  });
+}
+
+['pointerdown', 'keydown', 'touchstart', 'touchmove', 'click', 'wheel', 'scroll'].forEach((evtName) => {
+  window.addEventListener(evtName, hideIntroCard, { once: true, passive: true });
+});
+
 window.addEventListener('scroll', () => {
   const s = document.documentElement.scrollTop, h = document.documentElement.scrollHeight - window.innerHeight;
   document.getElementById('progress').style.width = (s/h*100)+'%';
 });
 
-const obs = new IntersectionObserver(entries => {
-  entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80); });
-}, {threshold:0.12});
-document.querySelectorAll('.metric-item,.tl-event,.realization-item,.future-item,.philo-item,.signal-item').forEach(el=>obs.observe(el));
+const revealTargets = [
+  ...document.querySelectorAll('#metrics, #timeline, #realizations, #philosophy, #signals, #terminal, #future, #end'),
+  ...document.querySelectorAll('.section-header, .metric-item, .tl-event, .realization-item, .future-item, .philo-item, .signal-item, .terminal-box')
+];
+
+revealTargets.forEach((el, index) => {
+  el.classList.remove('visible');
+  el.classList.add('reveal-target');
+  el.style.setProperty('--reveal-delay', `${(index % 5) * 55}ms`);
+
+  if (el.matches('#metrics, #timeline, #realizations, #philosophy, #signals, #terminal, #future, #end, .section-header')) {
+    el.classList.add('reveal-section');
+  }
+
+  if (el.matches('.tl-event:nth-child(odd), .realization-item:nth-child(odd), .future-item:nth-child(odd), .signal-item:nth-child(odd), .philo-item:nth-child(odd)')) {
+    el.classList.add('reveal-left');
+  }
+
+  if (el.matches('.tl-event:nth-child(even), .realization-item:nth-child(even), .future-item:nth-child(even), .signal-item:nth-child(even), .philo-item:nth-child(even)')) {
+    el.classList.add('reveal-right');
+  }
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('is-visible');
+    revealObserver.unobserve(entry.target);
+  });
+}, {
+  threshold: 0.16,
+  rootMargin: '0px 0px -10% 0px'
+});
+
+revealTargets.forEach((el) => revealObserver.observe(el));
+
+revealTargets.forEach((el) => el.classList.add('is-visible'));
 
 // Hero typewriter text + cursor effect
 const typewriterTarget = document.getElementById('typewriter-text');

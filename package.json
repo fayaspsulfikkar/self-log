@@ -1,26 +1,32 @@
 {
-  "name": "fayas-system-log",
+  "name": "self-log-portfolio",
   "version": "1.0.0",
-  "description": "FAYAS — System Log: Human v1.0 — A personal portfolio website with terminal-style UI and interactive animations",
+  "description": "A cinematic single-page portfolio for Fayas P Sulfikkar built with plain HTML, CSS, and JavaScript.",
+  "private": true,
   "main": "index.html",
   "scripts": {
-    "start": "open index.html",
-    "dev": "open index.html"
+    "dev": "python3 -m http.server 8000",
+    "start": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "preview": "python3 -m http.server 8000",
+    "format:check": "npx --yes prettier --check README.md package.json index.html CONTRIBUTING.md .editorconfig"
   },
   "keywords": [
     "portfolio",
-    "system-log",
-    "terminal",
-    "ui",
-    "interactive"
+    "personal-site",
+    "static-site",
+    "timeline",
+    "terminal-ui",
+    "vanilla-js"
   ],
   "author": "Fayas P Sulfikkar",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fayaspsulfikkar/self-log.git"
+    "url": "git+https://github.com/fayaspsulfikkar/self-log.git"
   },
-  "license": "MIT",
-  "engines": {
-    "node": ">=14.0.0"
-  }
+  "bugs": {
+    "url": "https://github.com/fayaspsulfikkar/self-log/issues"
+  },
+  "homepage": "https://fayaspsulfikkar.github.io/self-log/"
 }

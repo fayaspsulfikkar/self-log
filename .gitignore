@@ -1,27 +1,24 @@
-# System files
+# Operating system files
 .DS_Store
 Thumbs.db
+
+# Editor and IDE files
+.vscode/
+.idea/
 *.swp
 *.swo
 *~
-.vscode/
-.idea/
-
-# Node modules (if ever needed)
-node_modules/
-package-lock.json
-
-# Build/output files
-dist/
-build/
-*.log
-
-# Environment
-.env
-.env.local
-
-# IDE
-.vscode
-.idea
 *.sublime-project
 *.sublime-workspace
+
+# Dependencies
+node_modules/
+
+# Logs and output
+*.log
+dist/
+build/
+
+# Environment files
+.env
+.env.local
