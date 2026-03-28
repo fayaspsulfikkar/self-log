@@ -1004,7 +1004,7 @@
     <button class="music-toggle" id="music-toggle" type="button" aria-label="Play background music" aria-pressed="false">PLAY</button>
     <div class="music-eq" aria-hidden="true"><span></span><span></span><span></span></div>
     <span class="music-label">BGM</span>
-    <input id="music-volume" type="range" min="0" max="1" step="0.05" value="0.35" aria-label="Music volume">
+    <input id="music-volume" type="range" min="0" max="0.6" step="0.05" value="0.35" aria-label="Music volume">
     <span class="music-state" id="music-state">OFF</span>
   </div>
   <div class="nav-status"><div class="status-dot"></div><span>SYSTEM ACTIVE</span></div>
@@ -1413,10 +1413,13 @@ const musicState = document.getElementById('music-state');
 const navMusicPlayer = document.getElementById('nav-music-player');
 const MUSIC_STATE_KEY = 'fayas_music_state_v1';
 const MUSIC_VOLUME_KEY = 'fayas_music_volume_v1';
+const MUSIC_MAX_VOLUME = 0.6;
+const MUSIC_FADE_IN_MS = 5000;
 const AUTOPLAY_BY_DEFAULT = true;
 let pendingAutoplayUnmute = false;
 let userPausedByChoice = false;
 let requestMusicStart = async () => {};
+let musicFadeRaf = null;
 
 const introCard = document.getElementById('intro-card');
 const introOverlay = document.getElementById('intro-overlay');
@@ -1449,22 +1452,69 @@ function setMusicUI(isPlaying) {
   musicState.textContent = isPlaying ? (pendingAutoplayUnmute ? 'AUTO' : 'ON') : 'OFF';
 }
 
+function normalizeMusicVolume(value) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return 0.35;
+  return Math.max(0, Math.min(MUSIC_MAX_VOLUME, parsed));
+}
+
+function stopMusicFade() {
+  if (!musicFadeRaf) return;
+  cancelAnimationFrame(musicFadeRaf);
+  musicFadeRaf = null;
+}
+
+function fadeInBackgroundMusic(targetVolume) {
+  if (!bgMusic) return;
+
+  const safeTarget = normalizeMusicVolume(targetVolume);
+  stopMusicFade();
+
+  if (safeTarget === 0) {
+    bgMusic.volume = 0;
+    return;
+  }
+
+  bgMusic.volume = 0;
+  const start = performance.now();
+
+  const step = (now) => {
+    const progress = Math.min((now - start) / MUSIC_FADE_IN_MS, 1);
+    bgMusic.volume = safeTarget * progress;
+
+    if (progress < 1) {
+      musicFadeRaf = requestAnimationFrame(step);
+      return;
+    }
+
+    bgMusic.volume = safeTarget;
+    musicFadeRaf = null;
+  };
+
+  musicFadeRaf = requestAnimationFrame(step);
+}
+
 async function playBackgroundMusic() {
   if (!bgMusic) return;
   try {
     userPausedByChoice = false;
     pendingAutoplayUnmute = false;
     bgMusic.muted = false;
+    const targetVolume = normalizeMusicVolume(musicVolume?.value || 0.35);
+    bgMusic.volume = 0;
     await bgMusic.play();
+    fadeInBackgroundMusic(targetVolume);
     setMusicUI(true);
     localStorage.setItem(MUSIC_STATE_KEY, 'playing');
   } catch (_err) {
+    stopMusicFade();
     setMusicUI(false);
   }
 }
 
 function pauseBackgroundMusic() {
   if (!bgMusic) return;
+  stopMusicFade();
   userPausedByChoice = true;
   bgMusic.pause();
   setMusicUI(false);
@@ -1473,9 +1523,10 @@ function pauseBackgroundMusic() {
 
 if (bgMusic && musicToggle && musicVolume && musicState && navMusicPlayer) {
   const storedVolume = Number(localStorage.getItem(MUSIC_VOLUME_KEY));
-  const initialVolume = Number.isFinite(storedVolume) && storedVolume >= 0 && storedVolume <= 1 ? storedVolume : 0.35;
+  const initialVolume = normalizeMusicVolume(storedVolume);
   bgMusic.volume = initialVolume;
   musicVolume.value = String(initialVolume);
+  localStorage.setItem(MUSIC_VOLUME_KEY, String(initialVolume));
 
   const storedState = localStorage.getItem(MUSIC_STATE_KEY);
   const shouldAutoplay = storedState ? storedState === 'playing' : AUTOPLAY_BY_DEFAULT;
@@ -1490,7 +1541,9 @@ if (bgMusic && musicToggle && musicVolume && musicState && navMusicPlayer) {
   });
 
   musicVolume.addEventListener('input', () => {
-    const nextVolume = Number(musicVolume.value);
+    const nextVolume = normalizeMusicVolume(musicVolume.value);
+    stopMusicFade();
+    musicVolume.value = String(nextVolume);
     bgMusic.volume = nextVolume;
     localStorage.setItem(MUSIC_VOLUME_KEY, String(nextVolume));
   });
@@ -1504,11 +1557,14 @@ if (bgMusic && musicToggle && musicVolume && musicState && navMusicPlayer) {
     if (pendingAutoplayUnmute) {
       pendingAutoplayUnmute = false;
       bgMusic.muted = false;
-      bgMusic.volume = Number(musicVolume.value || initialVolume);
+      const targetVolume = normalizeMusicVolume(musicVolume.value || initialVolume);
+      bgMusic.volume = 0;
       try {
         await bgMusic.play();
+        fadeInBackgroundMusic(targetVolume);
         localStorage.setItem(MUSIC_STATE_KEY, 'playing');
       } catch (_err) {
+        stopMusicFade();
         setMusicUI(false);
       }
       setMusicUI(!bgMusic.paused);
@@ -1525,12 +1581,16 @@ if (bgMusic && musicToggle && musicVolume && musicState && navMusicPlayer) {
     try {
       pendingAutoplayUnmute = false;
       bgMusic.muted = false;
+      const targetVolume = normalizeMusicVolume(musicVolume.value || initialVolume);
+      bgMusic.volume = 0;
       await bgMusic.play();
+      fadeInBackgroundMusic(targetVolume);
       setMusicUI(true);
       localStorage.setItem(MUSIC_STATE_KEY, 'playing');
     } catch (_err) {
       // If audible autoplay is blocked, start muted and unmute on first interaction.
       try {
+        stopMusicFade();
         bgMusic.muted = true;
         await bgMusic.play();
         pendingAutoplayUnmute = true;
